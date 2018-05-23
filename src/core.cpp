@@ -1,5 +1,6 @@
 #include "core.hpp"
 #include "FileList.hpp"
+#include "src/resFile.hpp"
 #include <QDebug>
 
 Core::Core(QString mode, QString root, QStringList excludes):
@@ -12,12 +13,20 @@ Core::Core(QString mode, QString root, QStringList excludes):
 
 void Core::calc() throw(std::runtime_error)
 {
-    // <TODO> soma calcs
     _set = Set::GetSet(_mode);
 
+    uint light = 0, comment = 0, code = 0;
     FileList fl(_root, _set->GetSuffixes(), _excludes);
     for(auto str: fl.GetFileList())
-        qDebug() << str;
+    {
+        _files.append(ResFile::ParseFile(str));
+        light += _files.last().Light();
+        comment += _files.last().Comment();
+        code += _files.last().Code();
+        qDebug() << _files.last().toString();
+    }
+
+    _total = ResFile("SUMMED", light, comment, code);
 
     done = true;
 }
