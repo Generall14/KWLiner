@@ -28,10 +28,16 @@ SOURCES += \
     src/mainwindow.cpp \
     src/core.cpp \
     src/FileList.cpp \
-    src/resFile.cpp
+    src/resFile.cpp \
+    src/set.cpp \
+    src/sets/setCpp.cpp \
+    src/sets/setMSP.cpp
 
 HEADERS += \
     src/mainwindow.h \
     src/core.hpp \
     src/FileList.hpp \
-    src/resFile.hpp
+    src/resFile.hpp \
+    src/set.hpp \
+    src/sets/setCpp.hpp \
+    src/sets/setMSP.hpp
