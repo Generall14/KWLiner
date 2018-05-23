@@ -9,6 +9,8 @@ public:
     ResFile(QString name, uint light, uint comment, uint code);
     ResFile();
 
+
+
     QString Name() const;
     uint Total() const;
     uint Light() const;

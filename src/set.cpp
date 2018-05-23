@@ -10,9 +10,9 @@ Set::Set(QString name):
 
 QSharedPointer<Set> Set::GetSet(QString set) throw(std::runtime_error)
 {
-    if(set.compare("c/c++"))
+    if(!set.compare("c/c++"))
         return QSharedPointer<Set>(new SetCpp());
-    else if(set.compare("MSP430 asm"))
+    else if(!set.compare("MSP430 asm"))
         return QSharedPointer<Set>(new SetMSP());
     else
         throw std::runtime_error(QString("Set::GetSet: Nie rozpoznano zestawu "+set).toStdString());

@@ -1,4 +1,6 @@
 #include "core.hpp"
+#include "FileList.hpp"
+#include <QDebug>
 
 Core::Core(QString mode, QString root, QStringList excludes):
     _mode(mode),
@@ -11,6 +13,12 @@ Core::Core(QString mode, QString root, QStringList excludes):
 void Core::calc() throw(std::runtime_error)
 {
     // <TODO> soma calcs
+    _set = Set::GetSet(_mode);
+
+    FileList fl(_root, _set->GetSuffixes(), _excludes);
+    for(auto str: fl.GetFileList())
+        qDebug() << str;
+
     done = true;
 }
 
@@ -28,4 +36,12 @@ QVector<ResFile> Core::GetFiles() throw(std::runtime_error)
         calc();
 
     return _files;
+}
+
+QSharedPointer<Set> Core::GetSet() throw(std::runtime_error)
+{
+    if(!done)
+        calc();
+
+    return _set;
 }
