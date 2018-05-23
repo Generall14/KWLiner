@@ -25,7 +25,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-    src/mainwindow.cpp
+    src/mainwindow.cpp \
+    src/core.cpp \
+    src/FileList.cpp \
+    src/resFile.cpp
 
 HEADERS += \
-    src/mainwindow.h
+    src/mainwindow.h \
+    src/core.hpp \
+    src/FileList.hpp \
+    src/resFile.hpp
