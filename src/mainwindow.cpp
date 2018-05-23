@@ -4,7 +4,7 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
-    Core a("c/c++", "./test_cpp/");
+    Core a("MSP430 asm", "./test_msp/");
     a.GetSum();
 }
 

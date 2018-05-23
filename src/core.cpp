@@ -19,7 +19,7 @@ void Core::calc() throw(std::runtime_error)
     FileList fl(_root, _set->GetSuffixes(), _excludes);
     for(auto str: fl.GetFileList())
     {
-        _files.append(ResFile::ParseFile(str));
+        _files.append(ResFile::ParseFile(str, _set.data()));
         light += _files.last().Light();
         comment += _files.last().Comment();
         code += _files.last().Code();
@@ -27,6 +27,7 @@ void Core::calc() throw(std::runtime_error)
     }
 
     _total = ResFile("SUMMED", light, comment, code);
+    qDebug() << _total.toString();
 
     done = true;
 }
