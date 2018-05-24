@@ -22,8 +22,6 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
-CONFIG += staticlib
-
 
 SOURCES += \
         main.cpp \
@@ -36,7 +34,10 @@ SOURCES += \
     src/sets/setMSP.cpp \
     src/import/GlobalXmlFile.cpp \
     src/import/pugixml.cpp \
-    src/import/Restorable.cpp
+    src/import/Restorable.cpp \
+    src/sets/setJava.cpp \
+    src/sets/setPIC.cpp \
+    src/sets/setPython.cpp
 
 HEADERS += \
     src/mainwindow.h \
@@ -49,4 +50,7 @@ HEADERS += \
     src/import/GlobalXmlFile.hpp \
     src/import/pugiconfig.hpp \
     src/import/pugixml.hpp \
-    src/import/Restorable.hpp
+    src/import/Restorable.hpp \
+    src/sets/setJava.hpp \
+    src/sets/setPIC.hpp \
+    src/sets/setPython.hpp
