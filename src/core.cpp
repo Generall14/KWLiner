@@ -11,6 +11,12 @@ Core::Core(QString mode, QString root, QStringList excludes):
 
 }
 
+Core::Core():
+    Core("", "")
+{
+
+}
+
 void Core::calc() throw(std::runtime_error)
 {
     _set = Set::GetSet(_mode);

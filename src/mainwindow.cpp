@@ -55,6 +55,10 @@ void MainWindow::InitWidgets()
     upperLayout->setMargin(2);
     upperFrame->setLayout(upperLayout);
 
+    QVBoxLayout* lowerLayout = new QVBoxLayout();
+    lowerLayout->setMargin(2);
+    lowerFrame->setLayout(lowerLayout);
+
     // Dane wejściowe: ======================================================
     // ignorowane
     QGroupBox* ignoreFrame = new QGroupBox("Ignorowane");
@@ -110,6 +114,56 @@ void MainWindow::InitWidgets()
     btn = new QPushButton("ODPAL!");
     connect(btn, SIGNAL(clicked(bool)), this, SLOT(Run()));
     typLayout->addWidget(btn);
+
+    // Dane wyjściowe: ======================================================
+    lwFiles = new QListWidget();
+    connect(lwFiles, SIGNAL(currentRowChanged(int)), this, SLOT(Display(int)));
+    lowerLayout->addWidget(lwFiles);
+    QGroupBox* wynikFrame = new QGroupBox();
+    lowerLayout->addWidget(wynikFrame);
+    QVBoxLayout* wynikLayout = new QVBoxLayout();
+    wynikLayout->setMargin(2);
+    wynikFrame->setLayout(wynikLayout);
+
+    QHBoxLayout* fileLayout = new QHBoxLayout();
+    wynikLayout->addLayout(fileLayout);
+    lab = new QLabel("Plik:");
+    fileLayout->addWidget(lab);
+    fileLayout->addSpacerItem(new QSpacerItem(2, 2, QSizePolicy::Expanding));
+    leFile = new QLabel("-");
+    fileLayout->addWidget(leFile);
+
+    QHBoxLayout* totalLayout = new QHBoxLayout();
+    wynikLayout->addLayout(totalLayout);
+    lab = new QLabel("Linii razem:");
+    totalLayout->addWidget(lab);
+    totalLayout->addSpacerItem(new QSpacerItem(2, 2, QSizePolicy::Expanding));
+    leTotal = new QLabel("-");
+    totalLayout->addWidget(leTotal);
+
+    QHBoxLayout* codeLayout = new QHBoxLayout();
+    wynikLayout->addLayout(codeLayout);
+    lab = new QLabel("Linii kodu:");
+    codeLayout->addWidget(lab);
+    codeLayout->addSpacerItem(new QSpacerItem(2, 2, QSizePolicy::Expanding));
+    leCode = new QLabel("-");
+    codeLayout->addWidget(leCode);
+
+    QHBoxLayout* commLayout = new QHBoxLayout();
+    wynikLayout->addLayout(commLayout);
+    lab = new QLabel("Linii komentarzy:");
+    commLayout->addWidget(lab);
+    commLayout->addSpacerItem(new QSpacerItem(2, 2, QSizePolicy::Expanding));
+    leComm = new QLabel("-");
+    commLayout->addWidget(leComm);
+
+    QHBoxLayout* lightLayout = new QHBoxLayout();
+    wynikLayout->addLayout(lightLayout);
+    lab = new QLabel("Linii światła:");
+    lightLayout->addWidget(lab);
+    lightLayout->addSpacerItem(new QSpacerItem(2, 2, QSizePolicy::Expanding));
+    leLight = new QLabel("-");
+    lightLayout->addWidget(leLight);
 }
 
 void MainWindow::AddIgnored()
@@ -138,17 +192,38 @@ void MainWindow::RemoveIgnored()
 
 void MainWindow::Clear()
 {
-    //<TODO>
+    leFile->setText("-");
+    leTotal->setText("-");
+    leCode->setText("-");
+    leComm->setText("-");
+    leLight->setText("-");
 }
 
-void MainWindow::Display(Core &core)
+void MainWindow::Display(int c)
 {
-    //<TODO>
+    Clear();
+    if(c<0)
+        return;
+    if(c==0)
+        Display(result);
+    else
+        Display(results[c-1]);
+}
+
+void MainWindow::Display(ResFile &fil)
+{
+    Clear();
+    leFile->setText(fil.Name());
+    leTotal->setText(QString::number(fil.Total()));
+    leCode->setText(QString::number(fil.Code()));
+    leComm->setText(QString::number(fil.Comment()));
+    leLight->setText(QString::number(fil.Light()));
 }
 
 void MainWindow::Run()
 {
     Clear();
+    lwFiles->clear();
 
     try
     {
@@ -156,7 +231,16 @@ void MainWindow::Run()
         for(int i=0;i<lwIgnorowane->count();i++)
             temp.append(lwIgnorowane->item(i)->text());
         Core a(cbSet->currentText(), leAdr->text()+"/", temp);
-        a.GetSum();
+        result = a.GetSum();
+        results = a.GetFiles();
+        lwFiles->addItem(result.Name());
+//        Display(rs);
+
+        temp.clear();
+        for(ResFile res: results)
+            temp.append(res.Name());
+        lwFiles->addItems(temp);
+        lwFiles->setCurrentRow(0);
     }
     catch(std::runtime_error exc)
     {

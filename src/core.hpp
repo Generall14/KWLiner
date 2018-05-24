@@ -13,6 +13,7 @@ class Core
 {
 public:
     Core(QString mode, QString root, QStringList excludes = QStringList());
+    Core();
 
     ResFile GetSum() throw(std::runtime_error);
     QVector<ResFile> GetFiles() throw(std::runtime_error);
