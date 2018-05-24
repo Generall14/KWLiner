@@ -1,10 +1,15 @@
 #include "mainwindow.h"
-#include "src/core.hpp"
 #include <QLayout>
 #include <QFrame>
 #include <QGroupBox>
 #include <QPushButton>
 #include <QLabel>
+#include <QInputDialog>
+#include <QDebug>
+#include <QListWidgetItem>
+#include <QFileDialog>
+#include <exception>
+#include <QMessageBox>
 
 MainWindow::MainWindow(QWidget *parent):
     QMainWindow(parent),
@@ -12,9 +17,6 @@ MainWindow::MainWindow(QWidget *parent):
 {
     InitWidgets();
     LoadConfigs();
-
-    Core a("MSP430 asm", "./test_cpp/");
-    a.GetSum();
 }
 
 MainWindow::~MainWindow()
@@ -23,7 +25,7 @@ MainWindow::~MainWindow()
     Store("leAdr", leAdr->text());
     QStringList temp;
     for(int i=0;i<lwIgnorowane->count();i++)
-        temp.append(lwIgnorowane->itemAt(i, 0)->text());
+        temp.append(lwIgnorowane->item(i)->text());
     Store("lwIgnorowane", temp);
 }
 
@@ -61,15 +63,19 @@ void MainWindow::InitWidgets()
     ignoreLayout->setMargin(2);
     ignoreFrame->setLayout(ignoreLayout);
     lwIgnorowane = new QListWidget();
+    connect(lwIgnorowane, SIGNAL(itemDoubleClicked(QListWidgetItem*)), this, SLOT(ModifyIgnored()));
     ignoreLayout->addWidget(lwIgnorowane);
     QHBoxLayout* ignModLayout = new QHBoxLayout();
     ignModLayout->setMargin(2);
     ignoreLayout->addLayout(ignModLayout);
     QPushButton* btn = new QPushButton("Dodaj");
+    connect(btn, SIGNAL(clicked(bool)), this, SLOT(AddIgnored()));
     ignModLayout->addWidget(btn);
     btn = new QPushButton("Usuń");
+    connect(btn, SIGNAL(clicked(bool)), this, SLOT(RemoveIgnored()));
     ignModLayout->addWidget(btn);
     btn = new QPushButton("Edytuj");
+    connect(btn, SIGNAL(clicked(bool)), this, SLOT(ModifyIgnored()));
     ignModLayout->addWidget(btn);
 
     // prawa
@@ -87,6 +93,7 @@ void MainWindow::InitWidgets()
     leAdr->setReadOnly(true);
     adrLayout->addWidget(leAdr);
     btn = new QPushButton("Zmień");
+    connect(btn, SIGNAL(clicked(bool)), this, SLOT(GetAdr()));
     adrLayout->addWidget(btn);
 
     // typ
@@ -101,5 +108,72 @@ void MainWindow::InitWidgets()
     cbSet->addItems(Set::GetSetsList());
     typLayout->addWidget(cbSet);
     btn = new QPushButton("ODPAL!");
+    connect(btn, SIGNAL(clicked(bool)), this, SLOT(Run()));
     typLayout->addWidget(btn);
+}
+
+void MainWindow::AddIgnored()
+{
+    bool ok;
+    QString text = QInputDialog::getText(this, "Get", "Ignorowane wyrażenie", QLineEdit::Normal, "", &ok);
+    if(ok && !text.isEmpty())
+        lwIgnorowane->addItem(text);
+}
+
+void MainWindow::ModifyIgnored()
+{
+    QListWidgetItem* it = lwIgnorowane->currentItem();
+    if(it==nullptr)
+        return;
+    bool ok;
+    QString text = QInputDialog::getText(this, "Get", "Ignorowane wyrażenie", QLineEdit::Normal, it->text(), &ok);
+    if(ok && !text.isEmpty())
+        it->setText(text);
+}
+
+void MainWindow::RemoveIgnored()
+{
+    lwIgnorowane->takeItem(lwIgnorowane->currentRow());
+}
+
+void MainWindow::Clear()
+{
+    //<TODO>
+}
+
+void MainWindow::Display(Core &core)
+{
+    //<TODO>
+}
+
+void MainWindow::Run()
+{
+    Clear();
+
+    try
+    {
+        QStringList temp;
+        for(int i=0;i<lwIgnorowane->count();i++)
+            temp.append(lwIgnorowane->item(i)->text());
+        Core a(cbSet->currentText(), leAdr->text()+"/", temp);
+        a.GetSum();
+    }
+    catch(std::runtime_error exc)
+    {
+        QMessageBox::information(this, "runtime_error", QString(exc.what()));
+    }
+
+
+}
+
+void MainWindow::GetAdr()
+{
+    QString init;
+    if(leAdr->text().isEmpty())
+        init = "./";
+    else
+        init = leAdr->text();
+    QString directory = QFileDialog::getExistingDirectory(this, "Podaj katalog z projektem", init);
+    if(!directory.isEmpty())
+        leAdr->setText(directory);
 }

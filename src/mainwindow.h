@@ -6,6 +6,7 @@
 #include <QLineEdit>
 #include <QListWidget>
 #include <src/import/Restorable.hpp>
+#include "src/core.hpp"
 
 class MainWindow : public QMainWindow, public Restorable
 {
@@ -14,9 +15,19 @@ public:
     MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+private slots:
+    void AddIgnored();
+    void ModifyIgnored();
+    void RemoveIgnored();
+    void Run();
+    void GetAdr();
+
 private:
     void InitWidgets();
     void LoadConfigs();
+
+    void Clear();
+    void Display(Core &core);
 
     QComboBox* cbSet = nullptr;
     QLineEdit* leAdr = nullptr;
