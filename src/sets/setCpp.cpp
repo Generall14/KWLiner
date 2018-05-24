@@ -1,7 +1,7 @@
 #include "setCpp.hpp"
 
 SetCpp::SetCpp():
-    Set("c/c++")
+    Set("C/C++")
 {
     _suffixes = QStringList{".c", ".cpp", ".h", ".hpp"};
     _oneLlineComm = QStringList{"//"};

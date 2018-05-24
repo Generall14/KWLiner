@@ -10,7 +10,7 @@ Set::Set(QString name):
 
 QSharedPointer<Set> Set::GetSet(QString set) throw(std::runtime_error)
 {
-    if(!set.compare("c/c++"))
+    if(!set.compare("C/C++"))
         return QSharedPointer<Set>(new SetCpp());
     else if(!set.compare("MSP430 asm"))
         return QSharedPointer<Set>(new SetMSP());
@@ -20,7 +20,7 @@ QSharedPointer<Set> Set::GetSet(QString set) throw(std::runtime_error)
 
 QStringList Set::GetSetsList()
 {
-    QStringList tmp = {"c/c++", "MSP430 asm"};
+    QStringList tmp = {"C/C++", "MSP430 asm"};
     return tmp;
 }
 
