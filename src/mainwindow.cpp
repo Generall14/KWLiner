@@ -264,7 +264,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 {
     if(event->key()==Qt::Key_F1)
     {
-        QMessageBox::information(this, "About", "Autor: mgr inż. Wojciech Kogut");
+        QMessageBox::information(this, "About", "Autor: mgr inż. Wojciech Kogut\nBuild on "+QString(__DATE__));
     }
     else
         QMainWindow::keyPressEvent(event);
