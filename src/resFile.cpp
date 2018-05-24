@@ -30,7 +30,7 @@ ResFile ResFile::ParseFile(QString fileAdr, const Set *set) throw(std::runtime_e
 
     QTextStream ts(&file);
 
-    // Paskudny kawał kodu:
+    // Paskudny kawał kodu, działa to nie ruszać!!!:
     QString waitingEnding = "";
     while(!ts.atEnd())
     {

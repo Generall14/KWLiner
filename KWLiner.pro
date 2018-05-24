@@ -31,7 +31,10 @@ SOURCES += \
     src/resFile.cpp \
     src/set.cpp \
     src/sets/setCpp.cpp \
-    src/sets/setMSP.cpp
+    src/sets/setMSP.cpp \
+    src/import/GlobalXmlFile.cpp \
+    src/import/pugixml.cpp \
+    src/import/Restorable.cpp
 
 HEADERS += \
     src/mainwindow.h \
@@ -40,4 +43,8 @@ HEADERS += \
     src/resFile.hpp \
     src/set.hpp \
     src/sets/setCpp.hpp \
-    src/sets/setMSP.hpp
+    src/sets/setMSP.hpp \
+    src/import/GlobalXmlFile.hpp \
+    src/import/pugiconfig.hpp \
+    src/import/pugixml.hpp \
+    src/import/Restorable.hpp
