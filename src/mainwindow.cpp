@@ -5,7 +5,6 @@
 #include <QPushButton>
 #include <QLabel>
 #include <QInputDialog>
-#include <QDebug>
 #include <QListWidgetItem>
 #include <QFileDialog>
 #include <exception>
@@ -234,7 +233,6 @@ void MainWindow::Run()
         result = a.GetSum();
         results = a.GetFiles();
         lwFiles->addItem(result.Name());
-//        Display(rs);
 
         temp.clear();
         for(ResFile res: results)
@@ -260,4 +258,14 @@ void MainWindow::GetAdr()
     QString directory = QFileDialog::getExistingDirectory(this, "Podaj katalog z projektem", init);
     if(!directory.isEmpty())
         leAdr->setText(directory);
+}
+
+void MainWindow::keyPressEvent(QKeyEvent *event)
+{
+    if(event->key()==Qt::Key_F1)
+    {
+        QMessageBox::information(this, "About", "Autor: mgr inż. Wojciech Kogut");
+    }
+    else
+        QMainWindow::keyPressEvent(event);
 }

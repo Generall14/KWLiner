@@ -1,6 +1,5 @@
 #include "FileList.hpp"
 #include <QDir>
-#include <QDebug>
 
 /**
  * @param root - adres katalogu ze źródłami

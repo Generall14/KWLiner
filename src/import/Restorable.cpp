@@ -1,5 +1,4 @@
 #include "Restorable.hpp"
-#include <QDebug>
 
 Restorable::Restorable(QString className):
     _className(className)

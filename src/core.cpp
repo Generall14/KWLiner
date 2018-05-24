@@ -1,7 +1,6 @@
 #include "core.hpp"
 #include "FileList.hpp"
 #include "src/resFile.hpp"
-#include <QDebug>
 
 Core::Core(QString mode, QString root, QStringList excludes):
     _mode(mode),
@@ -29,11 +28,9 @@ void Core::calc() throw(std::runtime_error)
         light += _files.last().Light();
         comment += _files.last().Comment();
         code += _files.last().Code();
-        qDebug() << _files.last().toString();
     }
 
     _total = ResFile("SUMMED", light, comment, code);
-    qDebug() << _total.toString();
 
     done = true;
 }

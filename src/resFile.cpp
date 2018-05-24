@@ -1,7 +1,6 @@
 #include "resFile.hpp"
 #include "QFile"
 #include "QTextStream"
-#include <QDebug>
 
 ResFile::ResFile(QString name, uint light, uint comment, uint code):
     _name(name),

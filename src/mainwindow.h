@@ -7,6 +7,7 @@
 #include <QListWidget>
 #include <src/import/Restorable.hpp>
 #include <QLabel>
+#include <QKeyEvent>
 #include "src/core.hpp"
 #include "src/resFile.hpp"
 
@@ -31,6 +32,8 @@ private:
 
     void Clear();
     void Display(ResFile &fil);
+
+    virtual void keyPressEvent(QKeyEvent *event);
 
     QComboBox* cbSet = nullptr;
     QLineEdit* leAdr = nullptr;
