@@ -16,7 +16,7 @@ Core::Core():
 
 }
 
-void Core::calc() throw(std::runtime_error)
+void Core::Calc() throw(std::runtime_error)
 {
     _set = Set::GetSet(_mode);
 
@@ -30,7 +30,7 @@ void Core::calc() throw(std::runtime_error)
         light += _files.last().Light();
         comment += _files.last().Comment();
         code += _files.last().Code();
-        emit progress(i, files.size());
+        emit progress(i+1, files.size());
     }
 
     _total = ResFile("SUMMED", light, comment, code);
@@ -41,7 +41,7 @@ void Core::calc() throw(std::runtime_error)
 ResFile Core::GetSum() throw(std::runtime_error)
 {
     if(!done)
-        calc();
+        Calc();
 
     return _total;
 }
@@ -49,7 +49,7 @@ ResFile Core::GetSum() throw(std::runtime_error)
 QVector<ResFile> Core::GetFiles() throw(std::runtime_error)
 {
     if(!done)
-        calc();
+        Calc();
 
     return _files;
 }
@@ -57,7 +57,7 @@ QVector<ResFile> Core::GetFiles() throw(std::runtime_error)
 QSharedPointer<Set> Core::GetSet() throw(std::runtime_error)
 {
     if(!done)
-        calc();
+        Calc();
 
     return _set;
 }

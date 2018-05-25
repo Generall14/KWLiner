@@ -20,6 +20,7 @@ public:
     ResFile GetSum() throw(std::runtime_error);
     QVector<ResFile> GetFiles() throw(std::runtime_error);
     QSharedPointer<Set> GetSet() throw(std::runtime_error);
+    void Calc() throw(std::runtime_error);
 
 signals:
     void progress(int current, int total);
@@ -33,8 +34,6 @@ private:
     QSharedPointer<Set> _set;
     ResFile _total;
     QVector<ResFile> _files;
-
-    void calc() throw(std::runtime_error);
 };
 
 #endif

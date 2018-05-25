@@ -234,14 +234,22 @@ void MainWindow::Run()
     Clear();
     lwFiles->clear();
 
+    Core* core = nullptr;
     try
     {
         QStringList temp;
         for(int i=0;i<lwIgnorowane->count();i++)
             temp.append(lwIgnorowane->item(i)->text());
-        Core a(cbSet->currentText(), leAdr->text()+"/", temp);
-        result = a.GetSum();
-        results = a.GetFiles();
+
+        StatusBarInit();
+
+        core = new Core(cbSet->currentText(), leAdr->text()+"/", temp);
+        connect(core, SIGNAL(progress(int,int)), this, SLOT(StatusBarUpdate(int,int)));
+
+        core->Calc();
+
+        result = core->GetSum();
+        results = core->GetFiles();
         lwFiles->addItem(result.Name());
 
         temp.clear();
@@ -254,8 +262,9 @@ void MainWindow::Run()
     {
         QMessageBox::information(this, "runtime_error", QString(exc.what()));
     }
-
-
+    core->disconnect();
+    delete core;
+    StatusBarEnd();
 }
 
 void MainWindow::GetAdr()
@@ -285,12 +294,14 @@ void MainWindow::StatusBarInit()
     pbar->setEnabled(true);
     pbar->setValue(0);
     sblab->setText("Szukanie plików...");
+    centralWidget()->setEnabled(false);
 }
 
 void MainWindow::StatusBarEnd()
 {
     pbar->setEnabled(false);
     sblab->setText("");
+    centralWidget()->setEnabled(true);
 }
 
 void MainWindow::StatusBarUpdate(int current, int total)
