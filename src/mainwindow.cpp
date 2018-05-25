@@ -125,6 +125,14 @@ void MainWindow::InitWidgets()
     typLayout->addWidget(btn);
 
     // Dane wyjściowe: ======================================================
+    QHBoxLayout* totalFilesLayout = new QHBoxLayout();
+    lowerLayout->addLayout(totalFilesLayout);
+    lab = new QLabel("Pasujące pliki:");
+    totalFilesLayout->addWidget(lab);
+    totalFilesLayout->addSpacerItem(new QSpacerItem(2, 2, QSizePolicy::Expanding));
+    leTotalFiles = new QLabel("-");
+    totalFilesLayout->addWidget(leTotalFiles);
+
     lwFiles = new QListWidget();
     connect(lwFiles, SIGNAL(currentRowChanged(int)), this, SLOT(Display(int)));
     lowerLayout->addWidget(lwFiles);
@@ -257,6 +265,7 @@ void MainWindow::Run()
             temp.append(res.Name());
         lwFiles->addItems(temp);
         lwFiles->setCurrentRow(0);
+        leTotalFiles->setText(QString::number(results.size()));
     }
     catch(std::runtime_error exc)
     {

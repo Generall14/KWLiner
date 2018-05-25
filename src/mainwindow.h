@@ -52,6 +52,8 @@ private:
     QLabel* leComm = nullptr;
     QLabel* leLight = nullptr;
 
+    QLabel* leTotalFiles = nullptr;
+
     QProgressBar* pbar = nullptr;
     QLabel* sblab = nullptr;
 
