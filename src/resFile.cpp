@@ -87,3 +87,10 @@ QString ResFile::toString() const
     temp.append(" light: " + QString::number(_light));
     return temp;
 }
+
+bool ResFile::operator<(const ResFile &other)
+{
+    if(_total>other.Total())
+        return true;
+    return false;
+}

@@ -21,6 +21,8 @@ public:
 
     QString toString() const;
 
+    bool operator<(const ResFile &other);
+
 private:
     QString _name;
     uint _total;

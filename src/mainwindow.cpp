@@ -10,6 +10,7 @@
 #include <exception>
 #include <QMessageBox>
 #include <QStatusBar>
+#include <algorithm>
 
 MainWindow::MainWindow(QWidget *parent):
     QMainWindow(parent),
@@ -258,6 +259,7 @@ void MainWindow::Run()
 
         result = core->GetSum();
         results = core->GetFiles();
+        std::sort(results.begin(), results.end());
         lwFiles->addItem(result.Name());
 
         temp.clear();
