@@ -18,6 +18,7 @@ public:
     QStringList GetSuffixes() const;
     QStringList GetOneLineComments() const;
     QVector<QPair<QString, QString> > GetStartEndComments() const;
+    QVector<QPair<QString, QString> > GetStringInd() const;
 
 protected:
     Set(QString name);
@@ -26,6 +27,7 @@ protected:
     QStringList _suffixes;
     QStringList _oneLlineComm;
     QVector<QPair<QString, QString> > _seComm;
+    QVector<QPair<QString, QString> > _striInd;
 };
 
 #endif

@@ -52,3 +52,8 @@ QVector<QPair<QString, QString> > Set::GetStartEndComments() const
 {
     return _seComm;
 }
+
+QVector<QPair<QString, QString> > Set::GetStringInd() const
+{
+    return _striInd;
+}

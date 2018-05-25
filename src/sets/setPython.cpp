@@ -6,4 +6,6 @@ SetPython::SetPython():
     _suffixes = QStringList{".py"};
     _oneLlineComm = QStringList{"#"};
     //_seComm.append(QPair<QString, QString>());
+    _striInd.append(QPair<QString, QString>("\"", "\\\""));
+    _striInd.append(QPair<QString, QString>("'", "\'"));
 }
