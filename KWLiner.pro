@@ -37,7 +37,9 @@ SOURCES += \
     src/import/Restorable.cpp \
     src/sets/setJava.cpp \
     src/sets/setPIC.cpp \
-    src/sets/setPython.cpp
+    src/sets/setPython.cpp \
+    src/dyskryminator.cpp \
+    src/dyskryminatorSM.cpp
 
 HEADERS += \
     src/mainwindow.h \
@@ -53,4 +55,6 @@ HEADERS += \
     src/import/Restorable.hpp \
     src/sets/setJava.hpp \
     src/sets/setPIC.hpp \
-    src/sets/setPython.hpp
+    src/sets/setPython.hpp \
+    src/dyskryminator.hpp \
+    src/dyskryminatorSM.hpp
