@@ -22,12 +22,15 @@ void Core::calc() throw(std::runtime_error)
 
     uint light = 0, comment = 0, code = 0;
     FileList fl(_root, _set->GetSuffixes(), _excludes);
-    for(auto str: fl.GetFileList())
+    QStringList files = fl.GetFileList();
+    emit progress(0, files.size());
+    for(int i=0;i<files.size();++i)
     {
-        _files.append(ResFile::ParseFile(str, _set.data()));
+        _files.append(ResFile::ParseFile(files.at(i), _set.data()));
         light += _files.last().Light();
         comment += _files.last().Comment();
         code += _files.last().Code();
+        emit progress(i, files.size());
     }
 
     _total = ResFile("SUMMED", light, comment, code);

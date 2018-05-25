@@ -7,10 +7,12 @@
 #include <exception>
 #include <QSharedPointer>
 #include <src/set.hpp>
+#include <QObject>
 #include "resFile.hpp"
 
-class Core
+class Core : public QObject
 {
+    Q_OBJECT
 public:
     Core(QString mode, QString root, QStringList excludes = QStringList());
     Core();
@@ -18,6 +20,9 @@ public:
     ResFile GetSum() throw(std::runtime_error);
     QVector<ResFile> GetFiles() throw(std::runtime_error);
     QSharedPointer<Set> GetSet() throw(std::runtime_error);
+
+signals:
+    void progress(int current, int total);
 
 private:
     QString _mode;

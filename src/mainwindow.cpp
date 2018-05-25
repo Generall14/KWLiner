@@ -9,6 +9,7 @@
 #include <QFileDialog>
 #include <exception>
 #include <QMessageBox>
+#include <QStatusBar>
 
 MainWindow::MainWindow(QWidget *parent):
     QMainWindow(parent),
@@ -16,6 +17,8 @@ MainWindow::MainWindow(QWidget *parent):
 {
     InitWidgets();
     LoadConfigs();
+
+    statusBar()->show();
 }
 
 MainWindow::~MainWindow()
@@ -38,6 +41,13 @@ void MainWindow::LoadConfigs()
 
 void MainWindow::InitWidgets()
 {
+    pbar = new QProgressBar();
+    pbar->setEnabled(false);
+    statusBar()->addWidget(pbar);
+    sblab = new QLabel("");
+    sblab->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    statusBar()->addWidget(sblab);
+
     QWidget* wd = new QWidget();
     this->setCentralWidget(wd);
 
@@ -268,4 +278,24 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     }
     else
         QMainWindow::keyPressEvent(event);
+}
+
+void MainWindow::StatusBarInit()
+{
+    pbar->setEnabled(true);
+    pbar->setValue(0);
+    sblab->setText("Szukanie plików...");
+}
+
+void MainWindow::StatusBarEnd()
+{
+    pbar->setEnabled(false);
+    sblab->setText("");
+}
+
+void MainWindow::StatusBarUpdate(int current, int total)
+{
+    pbar->setMaximum(total);
+    pbar->setValue(current);
+    sblab->setText("Przetwarzanie... "+QString::number(current)+" / "+QString::number(total));
 }

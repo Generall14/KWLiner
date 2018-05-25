@@ -8,6 +8,7 @@
 #include <src/import/Restorable.hpp>
 #include <QLabel>
 #include <QKeyEvent>
+#include <QProgressBar>
 #include "src/core.hpp"
 #include "src/resFile.hpp"
 
@@ -25,6 +26,10 @@ private slots:
     void Run();
     void GetAdr();
     void Display(int c);
+
+    void StatusBarInit();
+    void StatusBarEnd();
+    void StatusBarUpdate(int current, int total);
 
 private:
     void InitWidgets();
@@ -46,6 +51,9 @@ private:
     QLabel* leCode = nullptr;
     QLabel* leComm = nullptr;
     QLabel* leLight = nullptr;
+
+    QProgressBar* pbar = nullptr;
+    QLabel* sblab = nullptr;
 
     ResFile result;
     QVector<ResFile> results;
