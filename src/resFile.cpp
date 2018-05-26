@@ -37,7 +37,7 @@ ResFile ResFile::ParseFile(QString fileAdr, const Set *set) throw(std::runtime_e
         bool someComment = false;
         dys.DyscriminateLine(line, &someComment);
 
-        if(!line.isEmpty())
+        if(!line.remove("\t").remove(" ").isEmpty())
             code++;
         else
         {

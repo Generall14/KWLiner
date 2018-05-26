@@ -7,6 +7,9 @@ linia nr 5//gr/*gs
 l/*rete//htr*/inia nr 6
 //vghccghghg
 /*trstgre*/
+   
+	
+			
 linia "str//ing" nr 7
 linia "/*string*/" nr 8
 linia "\"//string" nr 9
