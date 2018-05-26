@@ -77,18 +77,24 @@ void MainWindow::InitWidgets()
     ignoreLayout->setMargin(2);
     ignoreFrame->setLayout(ignoreLayout);
     lwIgnorowane = new QListWidget();
+    lwIgnorowane->setToolTip("Pliki i katalogi zawierające dowolny z podanych tu tekstów \n"
+                             "zostaną zignorowane. Porównywanie tekstów odbywa się z \n"
+                             "ignorowaniem wielkości znaku.");
     connect(lwIgnorowane, SIGNAL(itemDoubleClicked(QListWidgetItem*)), this, SLOT(ModifyIgnored()));
     ignoreLayout->addWidget(lwIgnorowane);
     QHBoxLayout* ignModLayout = new QHBoxLayout();
     ignModLayout->setMargin(2);
     ignoreLayout->addLayout(ignModLayout);
     QPushButton* btn = new QPushButton("Dodaj");
+    btn->setToolTip("Dodaj element do listy ignorowanych.");
     connect(btn, SIGNAL(clicked(bool)), this, SLOT(AddIgnored()));
     ignModLayout->addWidget(btn);
     btn = new QPushButton("Usuń");
+    btn->setToolTip("Usuń element z listy ignorowanych.");
     connect(btn, SIGNAL(clicked(bool)), this, SLOT(RemoveIgnored()));
     ignModLayout->addWidget(btn);
     btn = new QPushButton("Edytuj");
+    btn->setToolTip("Zmień zaznaczony element na liście ignorowawnych.");
     connect(btn, SIGNAL(clicked(bool)), this, SLOT(ModifyIgnored()));
     ignModLayout->addWidget(btn);
 
@@ -104,9 +110,12 @@ void MainWindow::InitWidgets()
     adrLayout->setMargin(2);
     adrFrame->setLayout(adrLayout);
     leAdr = new QLineEdit();
+    leAdr->setToolTip("Adres katalogu ze źródłami, pliki będą wyszukiwane \n"
+                      "w podanym katalogu oraz wszystkich jego podkatalogach.");
     leAdr->setReadOnly(true);
     adrLayout->addWidget(leAdr);
     btn = new QPushButton("Zmień");
+    btn->setToolTip("Zmień adres katalogu ze śródłami.");
     connect(btn, SIGNAL(clicked(bool)), this, SLOT(GetAdr()));
     adrLayout->addWidget(btn);
 
@@ -116,25 +125,37 @@ void MainWindow::InitWidgets()
     QHBoxLayout* typLayout = new QHBoxLayout();
     typLayout->setMargin(2);
     othFrame->setLayout(typLayout);
+    QString typToolTip = "Typ źródeł, określa rozszerzenie plików jakie zostaną \n"
+                         "zbadane oraz zasady rozdzielania komentarzy od kodu właściwego.";
     QLabel* lab = new QLabel("Typ projektu:");
+    lab->setToolTip(typToolTip);
     typLayout->addWidget(lab);
     cbSet = new QComboBox();
+    cbSet->setToolTip(typToolTip);
     cbSet->addItems(Set::GetSetsList());
     typLayout->addWidget(cbSet);
     btn = new QPushButton("ODPAL!");
+    btn->setToolTip("Rozpocznik przetwarzania z podanymi parametrami.");
     connect(btn, SIGNAL(clicked(bool)), this, SLOT(Run()));
     typLayout->addWidget(btn);
 
     // Dane wyjściowe: ======================================================
     QHBoxLayout* totalFilesLayout = new QHBoxLayout();
     lowerLayout->addLayout(totalFilesLayout);
+    QString pasujaceToolTip = "Liczba znalezionych plików w podanym katalogu z\n"
+                              "odpowiednim rozszerzeniem.";
     lab = new QLabel("Pasujące pliki:");
+    lab->setToolTip(pasujaceToolTip);
     totalFilesLayout->addWidget(lab);
     totalFilesLayout->addSpacerItem(new QSpacerItem(2, 2, QSizePolicy::Expanding));
     leTotalFiles = new QLabel("-");
+    leTotalFiles->setToolTip(pasujaceToolTip);
     totalFilesLayout->addWidget(leTotalFiles);
 
     lwFiles = new QListWidget();
+    lwFiles->setToolTip("Lista odczytanych plików. Posegregowana według ilości\n"
+                        "lini kodu (zaczynając od największych wartości). Pierwszy\n"
+                        "element zawiera sumę wszystkich plików.");
     connect(lwFiles, SIGNAL(currentRowChanged(int)), this, SLOT(Display(int)));
     lowerLayout->addWidget(lwFiles);
     QGroupBox* wynikFrame = new QGroupBox();
@@ -145,42 +166,61 @@ void MainWindow::InitWidgets()
 
     QHBoxLayout* fileLayout = new QHBoxLayout();
     wynikLayout->addLayout(fileLayout);
+    QString plikToolTiop = "Nazwa pliku.";
     lab = new QLabel("Plik:");
+    lab->setToolTip(plikToolTiop);
     fileLayout->addWidget(lab);
     fileLayout->addSpacerItem(new QSpacerItem(2, 2, QSizePolicy::Expanding));
     leFile = new QLabel("-");
+    leFile->setToolTip(plikToolTiop);
     fileLayout->addWidget(leFile);
 
     QHBoxLayout* totalLayout = new QHBoxLayout();
     wynikLayout->addLayout(totalLayout);
+    QString razemToolTip = "Całkowita liczba lini tekstu w pliku.";
     lab = new QLabel("Linii razem:");
+    lab->setToolTip(razemToolTip);
     totalLayout->addWidget(lab);
     totalLayout->addSpacerItem(new QSpacerItem(2, 2, QSizePolicy::Expanding));
     leTotal = new QLabel("-");
+    leTotal->setToolTip(razemToolTip);
     totalLayout->addWidget(leTotal);
 
     QHBoxLayout* codeLayout = new QHBoxLayout();
     wynikLayout->addLayout(codeLayout);
+    QString kodToolTip = "Liczba lini kodu które zawierały jakiś tekst \n"
+                         "(pomijając spacje i tabulatory) niebędący\n"
+                         "komentarzem";
     lab = new QLabel("Linii kodu:");
+    lab->setToolTip(kodToolTip);
     codeLayout->addWidget(lab);
     codeLayout->addSpacerItem(new QSpacerItem(2, 2, QSizePolicy::Expanding));
     leCode = new QLabel("-");
+    leCode->setToolTip(kodToolTip);
     codeLayout->addWidget(leCode);
 
     QHBoxLayout* commLayout = new QHBoxLayout();
     wynikLayout->addLayout(commLayout);
+    QString commToolTip = "Liczba lini które zawierały sam komentarz\n"
+                          "(pomijając spacje i tabulatory).";
     lab = new QLabel("Linii komentarzy:");
+    lab->setToolTip(commToolTip);
     commLayout->addWidget(lab);
     commLayout->addSpacerItem(new QSpacerItem(2, 2, QSizePolicy::Expanding));
     leComm = new QLabel("-");
+    leComm->setToolTip(commToolTip);
     commLayout->addWidget(leComm);
 
     QHBoxLayout* lightLayout = new QHBoxLayout();
     wynikLayout->addLayout(lightLayout);
+    QString lightToolTip = "Liczba lini które były puste lub zawierały\n"
+                           "same znki białe.";
     lab = new QLabel("Linii światła:");
+    lab->setToolTip(lightToolTip);
     lightLayout->addWidget(lab);
     lightLayout->addSpacerItem(new QSpacerItem(2, 2, QSizePolicy::Expanding));
     leLight = new QLabel("-");
+    leLight->setToolTip(lightToolTip);
     lightLayout->addWidget(leLight);
 }
 
