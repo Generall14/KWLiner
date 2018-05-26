@@ -2,6 +2,7 @@
 #include "QFile"
 #include "QTextStream"
 #include "src/dyskryminator.hpp"
+//#include <QDebug>
 
 ResFile::ResFile(QString name, uint light, uint comment, uint code):
     _name(name),
@@ -36,6 +37,8 @@ ResFile ResFile::ParseFile(QString fileAdr, const Set *set) throw(std::runtime_e
         QString line = ts.readLine();
         bool someComment = false;
         dys.DyscriminateLine(line, &someComment);
+
+//        qDebug() << line << " " << someComment;
 
         if(!line.remove("\t").remove(" ").isEmpty())
             code++;

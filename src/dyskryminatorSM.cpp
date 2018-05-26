@@ -30,16 +30,17 @@ void DyskryminatorSM::PushChar(QChar sgn) throw(std::runtime_error)
     {
     //================== NORMAL =====================================================
     case stateNormal:
-        outBuff.append(sgn);
+        workBuff.append(sgn);
         for(QString ol: oneLineComments)
         {
             if(ol.isEmpty())
                 throw std::runtime_error("DyskryminatorSM::PushChar(QChar sgn): empty elemet in oneLineComments");
-            idx = outBuff.indexOf(ol);
+            idx = workBuff.indexOf(ol);
             if(idx>-1)
             {
                 wasComment = true;
-                outBuff = outBuff.remove(idx, ol.size());
+                workBuff = workBuff.remove(idx, ol.size());
+                outBuff.append(workBuff);
                 currentState = stateOneLineComment;
                 return;
             }
@@ -48,11 +49,12 @@ void DyskryminatorSM::PushChar(QChar sgn) throw(std::runtime_error)
         {
             if(pair.first.isEmpty())
                 throw std::runtime_error("DyskryminatorSM::PushChar(QChar sgn): empty elemet in startEndComments.first");
-            idx = outBuff.indexOf(pair.first);
+            idx = workBuff.indexOf(pair.first);
             if(idx>-1)
             {
                 wasComment = true;
-                outBuff = outBuff.remove(idx, pair.first.size());
+                workBuff = workBuff.remove(idx, pair.first.size());
+                outBuff.append(workBuff);
                 workBuff.clear();
                 awaitingDoubleEnd = pair.second;
                 currentState = statePermComment;
@@ -63,11 +65,12 @@ void DyskryminatorSM::PushChar(QChar sgn) throw(std::runtime_error)
         {
             if(pair.first.isEmpty())
                 throw std::runtime_error("DyskryminatorSM::PushChar(QChar sgn): empty elemet in stringInd.first");
-            idx = outBuff.indexOf(pair.first);
+            idx = workBuff.indexOf(pair.first);
             if(idx>-1)
             {
+                outBuff.append(workBuff);
                 workBuff.clear();
-                awaitingDoubleEnd = pair.second;
+                awaitingDoubleEnd = pair.first;
                 awaitingStringException = pair.second;
                 currentState = stateString;
                 return;
@@ -121,10 +124,13 @@ void DyskryminatorSM::PushEndl() throw(std::runtime_error)
     {
     //================== NORMAL =====================================================
     case stateNormal:
+        outBuff.append(workBuff);
+        workBuff.clear();
         return;
         break;
     //================== ONE LINE COMMENT ===========================================
     case stateOneLineComment:
+        workBuff.clear();
         currentState = stateNormal;
         return;
         break;

@@ -1,3 +1,5 @@
+linia "str//ing" nr 7
+
 li/*fds*/ni/*fds*/a nr 1
 linia nr 2/*twerter
 ytryteyt
