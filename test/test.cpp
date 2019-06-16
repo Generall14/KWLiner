@@ -6,7 +6,7 @@ ytryteyt
 yteytr*/linia nr 3
 linia nr 4//428435
 linia nr 5//gr/*gs
-l/*rete//htr*/inia nr 6
+l/*re/*te//htr*/inia nr 6
 //vghccghghg
 /*trstgre*/
    
