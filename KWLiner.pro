@@ -32,9 +32,6 @@ SOURCES += \
     src/set.cpp \
     src/sets/setCpp.cpp \
     src/sets/setMSP.cpp \
-    src/import/GlobalXmlFile.cpp \
-    src/import/pugixml.cpp \
-    src/import/Restorable.cpp \
     src/sets/setJava.cpp \
     src/sets/setPIC.cpp \
     src/sets/setPython.cpp \
@@ -49,12 +46,10 @@ HEADERS += \
     src/set.hpp \
     src/sets/setCpp.hpp \
     src/sets/setMSP.hpp \
-    src/import/GlobalXmlFile.hpp \
-    src/import/pugiconfig.hpp \
-    src/import/pugixml.hpp \
-    src/import/Restorable.hpp \
     src/sets/setJava.hpp \
     src/sets/setPIC.hpp \
     src/sets/setPython.hpp \
     src/dyskryminator.hpp \
     src/dyskryminatorSM.hpp
+
+LIBS += -lrestorable -lpugixml

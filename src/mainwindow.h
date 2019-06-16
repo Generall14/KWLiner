@@ -5,7 +5,7 @@
 #include <QComboBox>
 #include <QLineEdit>
 #include <QListWidget>
-#include <src/import/Restorable.hpp>
+#include <Restorable.hpp>
 #include <QLabel>
 #include <QKeyEvent>
 #include <QProgressBar>
