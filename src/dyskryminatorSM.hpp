@@ -10,14 +10,14 @@
 class DyskryminatorSM
 {
 public:
-    DyskryminatorSM(const Set* set) throw(std::runtime_error);
+    DyskryminatorSM(const Set* set);
 
     void ResetState();
     bool DyscriminateLine(QString &line);
 
 private:
-    void PushChar(QChar sgn) throw(std::runtime_error);
-    QString PushEndl() throw(std::runtime_error);
+    void PushChar(QChar sgn);
+    QString PushEndl();
     bool wasComment;
 
     QStringList oneLineComments;

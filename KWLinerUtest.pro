@@ -1,5 +1,5 @@
 TEMPLATE = app
-CONFIG += console c++11 core
+CONFIG += console c++11 core qt
 CONFIG -= app_bundle
 #CONFIG -= qt
 
@@ -10,7 +10,9 @@ SOURCES += \
     src/sets/setJava.cpp \
     src/sets/setMSP.cpp \
     src/sets/setPIC.cpp \
-    src/sets/setPython.cpp
+    src/sets/setPython.cpp \
+    utests/DyskryminatorSMUtest.cpp \
+    src/dyskryminatorSM.cpp
 
 LIBS += -lgmock_main -lgtest -lgmock -lpthread
 
@@ -20,4 +22,5 @@ HEADERS += \
     src/sets/setJava.hpp \
     src/sets/setMSP.hpp \
     src/sets/setPIC.hpp \
-    src/sets/setPython.hpp
+    src/sets/setPython.hpp \
+    src/dyskryminatorSM.hpp

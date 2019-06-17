@@ -4,7 +4,7 @@
 /**
  * @param set - Opis znaczników wedłóg których będą usuwane komentarze.
  */
-DyskryminatorSM::DyskryminatorSM(const Set* set) throw(std::runtime_error)
+DyskryminatorSM::DyskryminatorSM(const Set* set)
 {
     if(set==nullptr)
         throw std::runtime_error("DyskryminatorSM::DyskryminatorSM: nullptr as argument");
@@ -13,7 +13,7 @@ DyskryminatorSM::DyskryminatorSM(const Set* set) throw(std::runtime_error)
     startEndComments = set->GetStartEndComments();
     stringInd = set->GetStringInd();
 
-    ResetState();
+    ResetState();//<TODO> sprawdzanie czy set isValid() - metoda w Set.
 }
 
 /**
@@ -43,7 +43,7 @@ bool DyskryminatorSM::DyscriminateLine(QString &line)
     return wasComment;
 }
 
-void DyskryminatorSM::PushChar(QChar sgn) throw(std::runtime_error)
+void DyskryminatorSM::PushChar(QChar sgn)
 {
     int idx;
     switch (currentState)
@@ -138,7 +138,7 @@ void DyskryminatorSM::PushChar(QChar sgn) throw(std::runtime_error)
     }
 }
 
-QString DyskryminatorSM::PushEndl() throw(std::runtime_error)
+QString DyskryminatorSM::PushEndl()
 {
     switch (currentState)
     {
