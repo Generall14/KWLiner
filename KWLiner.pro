@@ -35,7 +35,6 @@ SOURCES += \
     src/sets/setJava.cpp \
     src/sets/setPIC.cpp \
     src/sets/setPython.cpp \
-    src/dyskryminator.cpp \
     src/dyskryminatorSM.cpp
 
 HEADERS += \
@@ -49,7 +48,6 @@ HEADERS += \
     src/sets/setJava.hpp \
     src/sets/setPIC.hpp \
     src/sets/setPython.hpp \
-    src/dyskryminator.hpp \
     src/dyskryminatorSM.hpp
 
 LIBS += -lrestorable -lpugixml

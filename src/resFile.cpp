@@ -30,13 +30,12 @@ ResFile ResFile::ParseFile(QString fileAdr, const Set *set) throw(std::runtime_e
     uint code = 0, light = 0, comment = 0;
 
     QTextStream ts(&file);
-    Dyskryminator dys(set);
+    DyskryminatorSM dys(set);
 
     while(!ts.atEnd())
     {
         QString line = ts.readLine();
-        bool someComment = false;
-        dys.DyscriminateLine(line, &someComment);
+        bool someComment = dys.DyscriminateLine(line);
 
 //        qDebug() << line << " " << someComment;
 

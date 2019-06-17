@@ -1,6 +1,9 @@
 #include "dyskryminatorSM.hpp"
 #include <QString>
 
+/**
+ * @param set - Opis znaczników wedłóg których będą usuwane komentarze.
+ */
 DyskryminatorSM::DyskryminatorSM(const Set* set) throw(std::runtime_error)
 {
     if(set==nullptr)
@@ -13,6 +16,9 @@ DyskryminatorSM::DyskryminatorSM(const Set* set) throw(std::runtime_error)
     ResetState();
 }
 
+/**
+ * Ustawia stan początkowy (czyli zwykły kod bez otwartego komentarza ani stringu).
+ */
 void DyskryminatorSM::ResetState()
 {
     currentState = stateNormal;
@@ -21,6 +27,20 @@ void DyskryminatorSM::ResetState()
     workBuff.clear();
     awaitingDoubleEnd.clear();
     awaitingStringException.clear();
+}
+
+/**
+ * Usuwa z podanej linii komentarze na podstawie ustawionych znaczników oraz stanu z wcześniejszych wywołań funkcji.
+ * @param line - referencja do linii kodu.
+ * @return true - wystąpił komentarz
+ */
+bool DyskryminatorSM::DyscriminateLine(QString &line)
+{
+    wasComment = false;
+    for(QChar sgn: line)
+        PushChar(sgn);
+    line = PushEndl();
+    return wasComment;
 }
 
 void DyskryminatorSM::PushChar(QChar sgn) throw(std::runtime_error)
@@ -118,7 +138,7 @@ void DyskryminatorSM::PushChar(QChar sgn) throw(std::runtime_error)
     }
 }
 
-void DyskryminatorSM::PushEndl() throw(std::runtime_error)
+QString DyskryminatorSM::PushEndl() throw(std::runtime_error)
 {
     switch (currentState)
     {
@@ -126,27 +146,26 @@ void DyskryminatorSM::PushEndl() throw(std::runtime_error)
     case stateNormal:
         outBuff.append(workBuff);
         workBuff.clear();
-        return;
         break;
     //================== ONE LINE COMMENT ===========================================
     case stateOneLineComment:
         workBuff.clear();
         currentState = stateNormal;
-        return;
         break;
     //================== PERM COMMENT ===============================================
     case statePermComment:
         workBuff.clear();
         wasComment = true;
-        return;
         break;
     //================== STRING =====================================================
     case stateString:
         outBuff.append(workBuff);
         workBuff.clear();
-        return;
         break;
     default:
         throw std::runtime_error("DyskryminatorSM::PushChar: unknown state");
     }
+    QString temp = outBuff;
+    outBuff.clear();
+    return temp;
 }
