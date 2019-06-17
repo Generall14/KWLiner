@@ -1,8 +1,8 @@
 #include "resFile.hpp"
 #include "QFile"
 #include "QTextStream"
-#include "src/dyskryminator.hpp"
-//#include <QDebug>
+#include <algorithm>
+#include "dyskryminatorSM.hpp"
 
 ResFile::ResFile(QString name, uint light, uint comment, uint code):
     _name(name),
@@ -37,17 +37,15 @@ ResFile ResFile::ParseFile(QString fileAdr, const Set *set) throw(std::runtime_e
         QString line = ts.readLine();
         bool someComment = dys.DyscriminateLine(line);
 
-//        qDebug() << line << " " << someComment;
-
-        if(!line.remove("\t").remove(" ").isEmpty())
-            code++;
-        else
+        if(std::all_of(line.begin(), line.end(), [](QChar& c){return isspace(c.toLatin1());}))
         {
             if(someComment)
                 comment++;
             else
                 light++;
         }
+        else
+            code++;
     }
 
     file.close();
