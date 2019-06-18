@@ -4,6 +4,9 @@
 #include <algorithm>
 #include "dyskryminatorSM.hpp"
 
+/**
+ * Przyjmuje narzucone dane do przechowywania.
+ */
 ResFile::ResFile(QString name, uint light, uint comment, uint code):
     _name(name),
     _total(light+comment+code),
@@ -14,13 +17,22 @@ ResFile::ResFile(QString name, uint light, uint comment, uint code):
 
 }
 
+/**
+ * Pusty konstruktor, nic nie tworzy.
+ */
 ResFile::ResFile():
     ResFile("", 0, 0, 0)
 {
 
 }
 
-ResFile ResFile::ParseFile(QString fileAdr, const Set *set) throw(std::runtime_error)
+/**
+ * Parsuje plik i zwraca obiekt opisujący wynik. <TODO> hmm jak to przetestować przy statycznej metodzie i potrzebie
+ * wstrzyknięcia QFile i QTextStream.
+ * @param fileAdr - adres pliku do przeparsowania.
+ * @param set - obiekt opisujący znaczniki parsowania.
+ */
+ResFile ResFile::ParseFile(QString fileAdr, const Set *set)
 {
     if(set == nullptr)
         throw std::runtime_error("ResFile::ParseFile: pusty wskaźnik na Set ");

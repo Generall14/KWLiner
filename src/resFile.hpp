@@ -5,6 +5,9 @@
 #include <exception>
 #include "set.hpp"
 
+/**
+ * Klasa parsuje i przechowuje wyniki wskazanego pliku.
+ */
 class ResFile
 {
 public:

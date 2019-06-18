@@ -12,7 +12,9 @@ SOURCES += \
     src/sets/setPIC.cpp \
     src/sets/setPython.cpp \
     utests/DyskryminatorSMUtest.cpp \
-    src/dyskryminatorSM.cpp
+    src/dyskryminatorSM.cpp \
+    utests/ResFileUtest.cpp \
+    src/resFile.cpp
 
 LIBS += -lgmock_main -lgtest -lgmock -lpthread
 
@@ -23,4 +25,5 @@ HEADERS += \
     src/sets/setMSP.hpp \
     src/sets/setPIC.hpp \
     src/sets/setPython.hpp \
-    src/dyskryminatorSM.hpp
+    src/dyskryminatorSM.hpp \
+    src/resFile.hpp
