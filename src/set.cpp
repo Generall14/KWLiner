@@ -11,7 +11,7 @@ Set::Set(QString name):
 
 }
 
-QSharedPointer<Set> Set::GetSet(QString set) throw(std::runtime_error)
+QSharedPointer<Set> Set::GetSet(QString set)
 {
     if(!set.compare("C/C++"))
         return QSharedPointer<Set>(new SetCpp());
@@ -25,6 +25,40 @@ QSharedPointer<Set> Set::GetSet(QString set) throw(std::runtime_error)
         return QSharedPointer<Set>(new SetJava());
     else
         throw std::runtime_error(QString("Set::GetSet: Nie rozpoznano zestawu "+set).toStdString());
+}
+
+bool Set::isValid() const
+{
+    if(_name.isEmpty())
+        return false;
+
+    if(_suffixes.isEmpty())
+        return false;
+    for(auto str: _suffixes)
+    {
+        if(str.isEmpty())
+            return false;
+    }
+
+    for(auto str: _oneLlineComm)
+    {
+        if(str.isEmpty())
+            return false;
+    }
+
+    for(auto p: _seComm)
+    {
+        if( (p.first.isEmpty()) || (p.second.isEmpty()) )
+            return false;
+    }
+
+    for(auto p: _striInd)
+    {
+        if(p.first.isEmpty())
+            return false;
+    }
+
+    return true;
 }
 
 QStringList Set::GetSetsList()

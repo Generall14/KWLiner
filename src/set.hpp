@@ -11,7 +11,7 @@
 class Set
 {
 public:
-    static QSharedPointer<Set> GetSet(QString set) throw(std::runtime_error);
+    static QSharedPointer<Set> GetSet(QString set);
     static QStringList GetSetsList();
 
     QString GetName() const;
@@ -20,14 +20,16 @@ public:
     QVector<QPair<QString, QString> > GetStartEndComments() const;
     QVector<QPair<QString, QString> > GetStringInd() const;
 
+    bool isValid() const;
+
 protected:
     Set(QString name);
 
     QString _name;
-    QStringList _suffixes;
-    QStringList _oneLlineComm;
-    QVector<QPair<QString, QString> > _seComm;
-    QVector<QPair<QString, QString> > _striInd;
+    QStringList _suffixes; /**<Rozszerzenia plików związanych z zestawem.*/
+    QStringList _oneLlineComm; /**<Znaczniki rozpoczęcia komentarza jednej linii.*/
+    QVector<QPair<QString, QString> > _seComm; /**<Sparowane znaczniki początku i końca komentarza ciągłego.*/
+    QVector<QPair<QString, QString> > _striInd; /**<Pary znacznika stringu oraz wewnętrznego ignorowania tego znacznika.*/
 };
 
 #endif
