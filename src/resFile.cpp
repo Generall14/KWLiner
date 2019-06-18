@@ -27,12 +27,11 @@ ResFile::ResFile():
 }
 
 /**
- * Parsuje plik i zwraca obiekt opisujący wynik. <TODO> hmm jak to przetestować przy statycznej metodzie i potrzebie
- * wstrzyknięcia QFile i QTextStream.
+ * Parsuje wskazany plik, resetuje wcześniejsze dane.
  * @param fileAdr - adres pliku do przeparsowania.
  * @param set - obiekt opisujący znaczniki parsowania.
  */
-ResFile ResFile::ParseFile(QString fileAdr, const Set *set)
+void ResFile::parseFile(QString fileAdr, const Set* set)
 {
     if(set == nullptr)
         throw std::runtime_error("ResFile::ParseFile: pusty wskaźnik na Set ");
@@ -40,33 +39,42 @@ ResFile ResFile::ParseFile(QString fileAdr, const Set *set)
         throw std::runtime_error("ResFile::ParseFile: przekazany nieprawidłowy obiekt Set ");
 
     QFile file(fileAdr);
-    if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
-        throw std::runtime_error(QString("ResFile::ParseFile: nie można otworzyć pliku "+fileAdr).toStdString());
-
-    QString name = file.fileName().split("/").last();
-    uint code = 0, light = 0, comment = 0;
-
-    QTextStream ts(&file);
+    auto ts = getTextStreamFromFile(file);
     DyskryminatorSM dys(set);
 
-    while(!ts.atEnd())
+    _name = file.fileName().split("/").last();
+    _code = 0;
+    _light = 0;
+    _comment = 0;
+
+    while(!ts->atEnd())
     {
-        QString line = ts.readLine();
+        QString line = ts->readLine();
         bool someComment = dys.DyscriminateLine(line);
 
         if(std::all_of(line.begin(), line.end(), [](QChar& c){return isspace(c.toLatin1());}))
         {
             if(someComment)
-                comment++;
+                _comment++;
             else
-                light++;
+                _light++;
         }
         else
-            code++;
+            _code++;
     }
 
     file.close();
-    return ResFile(name, light, comment, code);
+    _total = _code + _light + _comment;
+}
+
+/**
+ * Szew do testów.
+ */
+std::unique_ptr<QTextStream> ResFile::getTextStreamFromFile(QFile &file)
+{
+    if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
+        throw std::runtime_error("ResFile::ParseFile: nie można otworzyć pliku");
+    return std::make_unique<QTextStream>(&file);
 }
 
 QString ResFile::Name() const

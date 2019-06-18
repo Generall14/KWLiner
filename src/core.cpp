@@ -26,7 +26,9 @@ void Core::Calc() throw(std::runtime_error)
     emit progress(0, files.size());
     for(int i=0;i<files.size();++i)
     {
-        _files.append(ResFile::ParseFile(files.at(i), _set.data()));
+        ResFile temp;
+        temp.parseFile(files.at(i), _set.data());
+        _files.append(temp);
         light += _files.last().Light();
         comment += _files.last().Comment();
         code += _files.last().Code();

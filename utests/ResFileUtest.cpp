@@ -6,6 +6,9 @@
 #include <QStringList>
 #include <QPair>
 #include <QVector>
+#include <memory>
+#include <QFile>
+#include <QTextStream>
 
 class SetStub : public Set
 {
@@ -21,13 +24,27 @@ public:
     }
 };
 
-//TEST(ResFile, ConstructorValidations) <TODO> bez sensu bez wstrzyknięcia własnego QFile
-//{
-//    EXPECT_THROW(ResFile::ParseFile("existing file", nullptr), std::runtime_error) << "przekazany pusty wskaźnik do konstruktora";
+class DumbResFile : public ResFile
+{
+protected:
+    virtual std::unique_ptr<QTextStream> getTextStreamFromFile(QFile &)
+    {
+        return std::make_unique<QTextStream>();
+    }
+};
 
-//    SetStub invalidSet(QStringList{}, QStringList{""}, {{"", ""}}, {{"", ""}});
-//    EXPECT_THROW(ResFile::ParseFile("existing file", &invalidSet), std::runtime_error) << "przekazany błędny obiekt Set do konstruktora";
+TEST(ResFile, ConstructorValidations)
+{
+    DumbResFile rf1;
+    EXPECT_THROW(rf1.parseFile("existing file", nullptr), std::runtime_error) << "przekazany pusty wskaźnik do konstruktora";
 
-//    SetStub validSet(QStringList{"existing file"}, QStringList{"fd"}, {{"dd", "ss"}}, {{"aa", "ee"}});
-//    EXPECT_NO_THROW(ResFile::ParseFile("f", &validSet)) << "prawidłowe dane";
-//}
+    DumbResFile rf2;
+    SetStub invalidSet(QStringList{}, QStringList{""}, {{"", ""}}, {{"", ""}});
+    EXPECT_THROW(rf2.parseFile("existing file", &invalidSet), std::runtime_error) << "przekazany błędny obiekt Set do konstruktora";
+
+    DumbResFile rf3;
+    SetStub validSet(QStringList{"existing file"}, QStringList{"fd"}, {{"dd", "ss"}}, {{"aa", "ee"}});
+    EXPECT_NO_THROW(rf3.parseFile("f", &validSet)) << "prawidłowe dane";
+}
+
+//<TODO> dalej testować!

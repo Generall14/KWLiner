@@ -3,6 +3,9 @@
 
 #include <QString>
 #include <exception>
+#include <memory>
+#include "QFile"
+#include "QTextStream"
 #include "set.hpp"
 
 /**
@@ -14,7 +17,7 @@ public:
     ResFile(QString name, uint light, uint comment, uint code);
     ResFile();
 
-    static ResFile ParseFile(QString fileAdr, const Set* set);
+    void parseFile(QString fileAdr, const Set* set);
 
     QString Name() const;
     uint Total() const;
@@ -25,6 +28,9 @@ public:
     QString toString() const;
 
     bool operator<(const ResFile &other);
+
+protected:
+    virtual std::unique_ptr<QTextStream> getTextStreamFromFile(QFile &file);
 
 private:
     QString _name;
