@@ -22,6 +22,11 @@ ResFile::ResFile():
 
 ResFile ResFile::ParseFile(QString fileAdr, const Set *set) throw(std::runtime_error)
 {
+    if(set == nullptr)
+        throw std::runtime_error("ResFile::ParseFile: pusty wskaźnik na Set ");
+    if(!set->isValid())
+        throw std::runtime_error("ResFile::ParseFile: przekazany nieprawidłowy obiekt Set ");
+
     QFile file(fileAdr);
     if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
         throw std::runtime_error(QString("ResFile::ParseFile: nie można otworzyć pliku "+fileAdr).toStdString());

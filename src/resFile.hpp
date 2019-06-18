@@ -11,7 +11,7 @@ public:
     ResFile(QString name, uint light, uint comment, uint code);
     ResFile();
 
-    static ResFile ParseFile(QString fileAdr, const Set* set) throw(std::runtime_error);
+    static ResFile ParseFile(QString fileAdr, const Set* set);
 
     QString Name() const;
     uint Total() const;

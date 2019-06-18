@@ -8,12 +8,14 @@ DyskryminatorSM::DyskryminatorSM(const Set* set)
 {
     if(set==nullptr)
         throw std::runtime_error("DyskryminatorSM::DyskryminatorSM: nullptr as argument");
+    if(!set->isValid())
+        throw std::runtime_error("DyskryminatorSM::DyskryminatorSM: przekazany nieprawidłowy obiekt Set");
 
     oneLineComments = set->GetOneLineComments();
     startEndComments = set->GetStartEndComments();
     stringInd = set->GetStringInd();
 
-    ResetState();//<TODO> sprawdzanie czy set isValid() - metoda w Set.
+    ResetState();
 }
 
 /**
@@ -53,8 +55,6 @@ void DyskryminatorSM::PushChar(QChar sgn)
         workBuff.append(sgn);
         for(QString ol: oneLineComments)
         {
-            if(ol.isEmpty())
-                throw std::runtime_error("DyskryminatorSM::PushChar(QChar sgn): empty elemet in oneLineComments");
             idx = workBuff.indexOf(ol);
             if(idx>-1)
             {
@@ -67,8 +67,6 @@ void DyskryminatorSM::PushChar(QChar sgn)
         }
         for(QPair<QString, QString> pair: startEndComments)
         {
-            if(pair.first.isEmpty())
-                throw std::runtime_error("DyskryminatorSM::PushChar(QChar sgn): empty elemet in startEndComments.first");
             idx = workBuff.indexOf(pair.first);
             if(idx>-1)
             {
@@ -83,8 +81,6 @@ void DyskryminatorSM::PushChar(QChar sgn)
         }
         for(QPair<QString, QString> pair: stringInd)
         {
-            if(pair.first.isEmpty())
-                throw std::runtime_error("DyskryminatorSM::PushChar(QChar sgn): empty elemet in stringInd.first");
             idx = workBuff.indexOf(pair.first);
             if(idx>-1)
             {
@@ -105,8 +101,6 @@ void DyskryminatorSM::PushChar(QChar sgn)
     case statePermComment:
         workBuff.append(sgn);
         wasComment = true;
-        if(awaitingDoubleEnd.isEmpty())
-            throw std::runtime_error("DyskryminatorSM::PushChar(QChar sgn): empty elemet in startEndComments.second");
         idx = workBuff.indexOf(awaitingDoubleEnd);
         if(idx>-1)
         {

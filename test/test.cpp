@@ -16,3 +16,10 @@ linia "str//ing" nr 7
 linia "/*string*/" nr 8
 linia "\"//string" nr 9
 linia nr 10
+
+
+co z """
+fds
+fds//
+fdsa
+f"""
