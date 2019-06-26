@@ -29,8 +29,10 @@ class DumbResFile : public ResFile
 protected:
     virtual std::unique_ptr<QTextStream> getTextStreamFromFile(QFile &)
     {
-        return std::make_unique<QTextStream>();
+        return std::make_unique<QTextStream>(&text);
     }
+public:
+    QString text = "";
 };
 
 TEST(ResFile, ConstructorValidations)
@@ -47,4 +49,39 @@ TEST(ResFile, ConstructorValidations)
     EXPECT_NO_THROW(rf3.parseFile("f", &validSet)) << "prawidłowe dane";
 }
 
-//<TODO> dalej testować!
+TEST(ResFile, countTest)
+{
+    SetStub set(QStringList{".cpp"}, QStringList{"//", ";"},
+                                {{"/*", "*/"}, {"XX", "XX"}},
+                                {{"\"", "\\\""}});
+    DumbResFile rf;
+    rf.text = "\n"
+              "linia \"str//ing\" nr 7\n"
+            "\n"
+            "li/*fds*/ni/*fds*/a nr 1\n"
+            "linia nr 2/*twerter\n"
+            "ytryteyt\n"
+            "yteytr*/linia nr 3\n"
+            "linia nr 4//428435\n"
+            "linia nr 5//gr/*gs\n"
+            "l/*re/*te//htr*/inia nr 6\n"
+            "//vghccghghg\n"
+            "/*trstgre*/\n"
+            "   \n"
+            "    \n"
+            "            \n"
+            "linia \"str//ing\" nr 7\n"
+            "linia \"/*string*/\" nr 8\n"
+            "linia \"\\\"//string\" nr 9\n"
+            "linia nr 10\n"
+            "\n"
+            "\n";
+    rf.parseFile("some file", &set);
+
+
+    EXPECT_EQ(rf.Code(), 11);
+    EXPECT_EQ(rf.Total(), 21);
+    EXPECT_EQ(rf.Light(), 7);
+    EXPECT_EQ(rf.Comment(), 3);
+}
+
