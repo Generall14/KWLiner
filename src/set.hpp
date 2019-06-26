@@ -8,6 +8,9 @@
 #include <QVector>
 #include <exception>
 
+/**
+ * Klasa opisuje znaczniki tekstowe dla danego typu kodu.
+ */
 class Set
 {
 public:

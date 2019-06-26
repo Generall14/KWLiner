@@ -2,6 +2,13 @@
 #include "FileList.hpp"
 #include "src/resFile.hpp"
 
+
+/**
+ * @param mode - tekstowe wskazanie zestawu Set.
+ * @param root - adres do katalogu w którym rekurencyjnie mają być wyszukane pliki.
+ * @param excludes - ignorowane pliki (pliki których adres zawiera jeden z tych tekstów zostaną zignorowane), porównanie
+ * działa jako CaseInsensitive.
+ */
 Core::Core(QString mode, QString root, QStringList excludes):
     _mode(mode),
     _root(root),
@@ -16,7 +23,7 @@ Core::Core():
 
 }
 
-void Core::Calc() throw(std::runtime_error)
+void Core::Calc()
 {
     _set = Set::GetSet(_mode);
 
@@ -40,7 +47,7 @@ void Core::Calc() throw(std::runtime_error)
     done = true;
 }
 
-ResFile Core::GetSum() throw(std::runtime_error)
+ResFile Core::GetSum()
 {
     if(!done)
         Calc();
@@ -48,7 +55,7 @@ ResFile Core::GetSum() throw(std::runtime_error)
     return _total;
 }
 
-QVector<ResFile> Core::GetFiles() throw(std::runtime_error)
+QVector<ResFile> Core::GetFiles()
 {
     if(!done)
         Calc();
@@ -56,7 +63,7 @@ QVector<ResFile> Core::GetFiles() throw(std::runtime_error)
     return _files;
 }
 
-QSharedPointer<Set> Core::GetSet() throw(std::runtime_error)
+QSharedPointer<Set> Core::GetSet()
 {
     if(!done)
         Calc();

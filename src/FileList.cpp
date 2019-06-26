@@ -4,7 +4,8 @@
 /**
  * @param root - adres katalogu ze źródłami
  * @param suffixes - końcówki plików do odczytu
- * @param excludes - jeżeli w nazwie pliku lub katalogu znajdzie się tekst z tej listy - plik/katalog zostanie zignorowany
+ * @param excludes - jeżeli w nazwie pliku lub katalogu znajdzie się tekst z tej listy - plik/katalog zostanie zignorowany,
+ * porównanie odbywa się przy CaseInsensitive.
  */
 FileList::FileList(QString root, QStringList suffixes, QStringList excludes):
     _root(root),
